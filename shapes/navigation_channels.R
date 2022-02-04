@@ -1,4 +1,4 @@
-# Buffer Navigation channels
+# Buffer Navigation channels and save to raster
 
 library(raster)
 library(tidyverse)

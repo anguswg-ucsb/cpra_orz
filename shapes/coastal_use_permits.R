@@ -79,3 +79,12 @@ raster::writeRaster(
 saveRDS(cup_r, "data/coastal_use_permits/coastal_use_permits_raster.rds") 
 
 rm(buffer_lst, buff, cup_path, cup_poly, cup_r, cup_union, cup_simple, ext, empty_r, buff_df, crs)
+
+
+
+
+
+
+
+
+

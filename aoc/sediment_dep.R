@@ -47,3 +47,5 @@ sed_dep_mean <- resample(sed_dep_mean, resamp_r)
 
 saveRDS(sed_dep_mean, "data/sediment_dep/sediment_deposition.rds")
 
+rm(mp, resamp_r, sed_dep, sed_dep_lst, sed_dep_mean, sed_dep_stk, i, mp_files)
+

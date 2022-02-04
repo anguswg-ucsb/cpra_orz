@@ -19,7 +19,7 @@ crs(landwater) <- crs
 # land polygon
 land_poly <-  readRDS("data/masks/land_polygon.rds") %>% 
   st_transform(26915)
-
+plot(land_poly$geometry)
 # convert land  polygon to SP for fetch function
 land_sp <- land_poly %>%
   as("Spatial") %>%
@@ -32,6 +32,7 @@ land_sp <- land_poly %>%
 water <- setValues(
   landwater, ifelse(getValues(landwater) == 1, 1, NA)
 )
+
 
 # set CRS
 crs(water) <- crs
@@ -62,9 +63,7 @@ pt_intersect <- sapply(
 water_fetch_pts <- water_pts[pt_intersect,]
 
 rm(water, water_pts, landwater, land_poly, pt_intersect)
-# pt_diff <- st_difference(water_pts, land_poly)
-
-tmp <- water_fetch_pts[1:100,]
+# tmp <- water_fetch_pts[1:1500,]
 
 # empty list to add fetch calculated points
 fetch_lst <- list()
@@ -72,7 +71,7 @@ fetch_lst <- list()
 # loop over each water point and calculate the fetch
 for (i in 1:nrow(water_fetch_pts)) {
     
-    fetch_txt <- paste0(i, "/", nrow(water_fetch_pts))
+    fetch_txt <- paste0(i, "/", nrow(water_fetch_pts ))
 
     logger::log_info("calculating fetch for point - {fetch_txt}")
 
@@ -88,7 +87,7 @@ for (i in 1:nrow(water_fetch_pts)) {
       bearings    = c(0, 45, 90, 135, 180, 225, 270, 315),
       shoreline   = land_sp,
       dmax        = 20000,
-      spread      = c(0.5,0,0.5),
+      spread      = c(0, 0, 0),
       projected   = TRUE
     )
     
@@ -121,13 +120,12 @@ fetch_df <- bind_rows(fetch_lst)
 
 # save fetch point data
 saveRDS(
-  fetch_df, 
+  fetch_df,
   "commercial_viability/fetch_pts.rds"
 )
 
-fetch_df <-readRDS("data/fetch/fetch_pts.rds")
+# fetch_df <-readRDS("data/fetch/fetch_pts.rds")
 
-# 
 # fetch_sf <- fetch_df %>%
 #   # group_by(id, lat, lng) %>%
 #   st_as_sf(coords = c("lng", "lat"), crs = 5070) %>%
@@ -136,18 +134,17 @@ fetch_df <-readRDS("data/fetch/fetch_pts.rds")
 #     lng = st_coordinates(.)[,1],
 #     lat = st_coordinates(.)[,2]
 #   )
-# 
+
 # fetch_df2 <- fetch_sf %>%
 #   st_drop_geometry()
-# 
-# fetch_ext <- fetch_df2 %>% 
-#   st_as_sf(coords = c("lng", "lat"), crs = 26915) %>% 
-#   extent()
-# 
-# ext <- extent(fetch_sf)
+
+fetch_ext <- fetch_df %>%
+  st_as_sf(coords = c("lng", "lat"), crs = 26915) %>%
+  extent()
+
 
 # summarize all bearings to one point each
-fetch_summarize <- fetch_df2 %>%
+fetch_summarize <- fetch_df %>%
   group_by(id, lat, lng) %>%
   summarize(fetch = mean(fetch)) %>%    # summarize mean of 3 max distances
   ungroup() %>% 
@@ -181,6 +178,7 @@ resamp_r <- raster(
   ext = extent(405220, 909700, 3199570, 3416530)
 )
 
+# resample to fit to grid
 fetch_r   <- resample(fetch_r, resamp_r)
 
 # save fetch raster
@@ -194,53 +192,6 @@ writeRaster(
         "data/fetch/fetch_raster.tif",
         overwrite = TRUE
           )
-
-
-
-
-#   mutate(
-#     lng = st_coordinates(.)[,1],
-#     lat = st_coordinates(.)[,2]
-#       ) %>% 
-#   st_drop_geometry() 
-# 
-# point_join <- left_join(
-#                       tmp_pts, 
-#                       fetch_summarize,
-#                       by = c("lat", "lng")
-#                     ) %>% 
-#   st_as_sf(coords = c("lng", "lat"), crs = 26915)
-
-
-# ---- convert points to raster  ----
-crs <- CRS('+init=EPSG:26915')
-
-# extent of fetch
-# ext <- extent(c(405220, 909700, 3199570, 3416530))
-
-
-empty_r <- raster(
-                ext    = extent(water), 
-                ncols  = 517,
-                nrows  = 1293,
-                res    = c(480, 480),
-                crs    = crs
-                  )
-
-
-# set CRS
-crs(fetch_r) <- crs
-
-writeRaster(
-  fetch_r, 
- 
-            overwrite = TRUE)
-
-
-
-
-
-
 
 
 

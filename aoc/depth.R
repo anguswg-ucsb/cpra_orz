@@ -8,17 +8,18 @@ library(rgdal)
 library(mapview)
 library(logger)
 
+remove(list = ls())  # clear all workspace variables
 # depth inundation raster
 depth <- raster("data/depth/MP2023_S07_G500_C000_U00_V00_SLA_O_01_01_W_inun.tif")
-
-# aggregate depth to 480m resolution
-depth <- raster::aggregate(depth, fact = 16)
 
 # Coordinate ref system
 crs <-  CRS('+init=EPSG:26915')
 
 # Assign CRS
 crs(depth) <- crs
+
+# aggregate depth to 480m resolution
+depth <- raster::aggregate(depth, fact = 16)
 
 # convert values to feet
 depth_feet <- depth*3.281
@@ -45,9 +46,11 @@ resamp_r <- raster(
 depth_reclass   <- resample(depth_reclass, resamp_r)
 
 # save
-saveRDS(depth_reclass, "data/depth/depth_inundation.rds")
-writeRaster(depth_reclass, "data/depth/depth_inundation.tif", overwrite = T)
+# saveRDS(depth_reclass, "data/depth/depth_inundation.rds")
+# writeRaster(depth_reclass, "data/depth/depth_inundation.tif", overwrite = T)
 
+# final_data_path <- "C:/Users/angus/OneDrive/Desktop/cpra_ors_data/"
+# writeRaster(depth_reclass, paste0(final_data_path, "depth_inundation.tif"), overwrite = T)
 
 
 

@@ -47,6 +47,17 @@ sed_dep <- readRDS("data/sediment_dep/sediment_deposition.rds")
 
 # land polygon for masking
 land         <- readRDS("data/masks/land_polygon.rds")
+# land_r         <- readRDS("data/masks/land_raster.rds")
+# resamp_r <- raster(
+#   nrows = 452,
+#   ncols = 1051,
+#   crs = CRS('+init=EPSG:26915'),
+#   ext = extent(405220, 909700, 3199570, 3416530)
+# )
+# 
+# # resample depth values
+# land_r   <- resample(land_r, resamp_r)
+# plot(mp_hsi2$hsi)
 # mp      <- raster::stack(mp_files[1])
 
 # mp_hsi <- get_trad_cultch(mp = mp, sed_dep = sed_dep)
@@ -67,15 +78,22 @@ for (i in 1:length(mp_files)) {
 
   mp_hsi <-  raster::stack(mp_hsi) %>% 
     mask(land, inverse = T) %>% 
-    round(4) %>% 
+    round(4) %>%
     terra::rast()
-
+  
   # save raster
   writeRaster(
     mp_hsi,
     paste0("data/traditional_cultch/traditional_cultch_", substr(mp_files[i], 38, 39), ".tif"),
     overwrite = T
   )
+  
+  # final_data_path <- "C:/Users/angus/OneDrive/Desktop/cpra_ors_data/"
+  # writeRaster(
+  #   mp_hsi, 
+  #   paste0(final_data_path, "traditional_cultch_", substr(mp_files[i], 38, 39), ".tif"),
+  #   overwrite = T
+  #   )
   
   # save RDS
   # saveRDS(
@@ -114,6 +132,7 @@ writeRaster(
   "data/oyster_resource_suitability/traditional_cultch_mean.tif",
   overwrite = T
 )
+
 
 writeRaster(
   trad_cultch_sd,

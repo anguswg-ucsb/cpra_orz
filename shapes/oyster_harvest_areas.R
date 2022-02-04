@@ -8,43 +8,6 @@ library(rgdal)
 library(sp)
 library(mapview)
 
-# **************************************
-# ---- Oyster harvest areas polygon ----
-# **************************************
-
-# # Coordinate ref system 26915 NAD83
-# crs <- CRS('+init=EPSG:26915')
-# 
-# path <- "C:/Users/angus/OneDrive/Desktop/lynker/CPRA/data/"
-# 
-# ldh         <- sf::read_sf(paste0(path, "ldh/Final_Classification_Areas_All.shp")) %>%
-#   st_transform(26915)
-
-# ldh_interm  <- sf::read_sf(paste0(path, "ldh/intermediate/Intermediate.shp")) %>%
-#   st_as_sf()
-
-# st_crs(ldh_interm) <- crs
-# 
-# # get difference between original LDH and LDH intermediate file, then replace intermed w/ new classifcation
-
-# # union 3 intermed shapes in new ldh shape
-# ldh_interm <- ldh_interm %>%
-#   st_union() %>%
-#   st_sf() %>%
-#   mutate(Status = "intermed")
-
-# # combine original and new intermed shapes
-# ldh_new <- bind_rows(ldh[-3,], ldh_interm) %>%
-#   mutate(
-#     Status       = factor(Status),             # Status as factor for mapping
-#     raster_value = case_when(
-#               Status == "Closed"     ~ 0,
-#               Status == "intermed"   ~ 1,
-#               Status == "open"       ~ 2
-#               ))       
-
-# sf::write_sf(ldh_new, "data/oyster_harvest_areas/oyster_harvest_areas.shp", overwrite = T)
-# saveRDS(ldh_new, "data/oyster_harvest_areas/oyster_harvest_areas.rds")
 
 # *********************************************
 # ---- Rasterize oyster harvest areas poly ----
@@ -71,7 +34,7 @@ oyster_harvest_areas_r <- fasterize::fasterize(
 
 # save oyster harvest areas raster
 raster::writeRaster(
-                  oyster_harvest_areas_r, 
+                  oyster_harvest_areas_r,
                   "data/oyster_harvest_areas/oyster_harvest_areas_raster.tif",
                   overwrite = T
                   )

@@ -44,11 +44,17 @@ for (i in 1:length(mp_files)) {
     paste0("data/oyster_viability/oyster_viability_",substr(mp_files[i], 19, 20), ".tif"),
     overwrite = TRUE
   )
+  # final_data_path <- "C:/Users/angus/OneDrive/Desktop/cpra_ors_data/"
+  # writeRaster(
+  #   terra::rast(ov), 
+  #   paste0(final_data_path, "oyster_viability_", substr(mp_files[i], 19, 20), ".tif"),
+  #   overwrite = T
+  #             )
   
   # save RDS
-  saveRDS(
-    ov,
-    paste0("C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/oyster_viability_", substr(mp_files[3], 19, 20), ".rds")
-  )
+  # saveRDS(
+  #   ov,
+  #   paste0("C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/oyster_viability_", substr(mp_files[3], 19, 20), ".rds")
+  # )
 }
  

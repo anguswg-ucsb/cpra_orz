@@ -97,16 +97,19 @@ combine_sd <- stack(combine_lst)%>%
   setNames(c("combine_aoc_sd"))
 
 # Raster stack of AOC means
-mean_st <- raster::stack(shallow_mean, deep_mean, combine_mean) %>% 
+mean_st <- raster::stack(shallow_mean, deep_mean, combine_mean) %>%
+  # setNames(c("aoc_shallow_mean", "aoc_deep_mean")) %>% 
   terra::rast()
+
 
 # Raster stack of AOC standard deviations
-sd_st   <- raster::stack(shallow_sd, deep_sd, combine_sd) %>% 
+sd_st   <- raster::stack(shallow_sd, deep_sd, combine_sd) %>%
+  # setNames(c("aoc_shallow_sd", "aoc_deep_sd")) %>% 
   terra::rast()
 
-writeRaster(mean_st, "data/oyster_resource_suitability/aoc_mean.tif", overwrite = T)
-writeRaster(sd_st, "data/oyster_resource_suitability/aoc_standard_dev.tif", overwrite = T)
 
+# writeRaster(mean_st, "data/oyster_resource_suitability/aoc_mean.tif", overwrite = T)
+# writeRaster(sd_st, "data/oyster_resource_suitability/aoc_standard_dev.tif", overwrite = T)
 # saveRDS(stack(mean_st), "C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/aoc_mean.rds")
 # saveRDS(stack(sd_st), "C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/aoc_sd.rds")
 

@@ -57,12 +57,14 @@ road_mask20 <- mask(stk_road$road_buffer_20km, road_shp[3,], inverse = T)
 cover_roads <- cover(road_mask10, road_mask20, identity = T )
 cover_roads <- cover(road_mask5, cover_roads, identity = T)
 cover_roads <- cover(stk_road$road_buffer_2km, cover_roads, identity = T)
+mapview(cover_roads$layer)
 
 # Extend 20km road buffer out 
 road_extend  <- setValues(
   cover_roads, 
   ifelse(
-    is.na(getValues(cover_roads)) == TRUE, 20, getValues(cover_roads)
+    is.na(getValues(cover_roads)) == TRUE, 25, getValues(cover_roads)
+    # is.na(getValues(cover_roads)) == TRUE, 20, getValues(cover_roads)
   )
 )
 
@@ -76,18 +78,10 @@ resamp_r <- raster(
 
 # resample
 road_extend   <- resample(road_extend, resamp_r)
-
+plot(road_extend)
 
 saveRDS(road_extend, "data/roads/road_buffer_raster.rds")
 raster::writeRaster(road_extend, "data/roads/road_buffer_raster.tif", overwrite = T)
 
 rm(cover_roads, cover_roads2, cover_roads3, road_mask10, road_mask20, road_mask5, empty_r, landwater, road_extend, road_extend2,
-   r_road_10km, r_road_20km, r_road_2km, r_road_5km, road_shp, tmp, stk_road, roads, grid_ext)
-
-# xmin  <- 404980
-# xmax  <- 909940
-# ymin  <- 3199810
-# ymax  <- 3416770
-
-# # grid extent
-# grid_ext <- raster::extent(c(xmin, xmax, ymin, ymax))
+   r_road_10km, r_road_20km, r_road_2km, r_road_5km, road_shp, tmp, stk_road, roads, grid_ext, crs, resamp_r)
