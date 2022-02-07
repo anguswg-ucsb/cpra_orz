@@ -1,3 +1,7 @@
+# Angus Watters
+# Lynker
+# Create land water rasters and shapefiles
+
 library(raster)
 library(tidyverse)
 library(sf)

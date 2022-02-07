@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Calculate mean sediment deposition over the 10 years of MP data
 
 library(raster)
@@ -45,6 +47,7 @@ resamp_r <- raster(
 # resample
 sed_dep_mean <- resample(sed_dep_mean, resamp_r)
 
+writeRaster(sed_dep_mean, "data/sediment_dep/sediment_deposition.tif", overwrite = T)
 saveRDS(sed_dep_mean, "data/sediment_dep/sediment_deposition.rds")
 
 rm(mp, resamp_r, sed_dep, sed_dep_lst, sed_dep_mean, sed_dep_stk, i, mp_files)

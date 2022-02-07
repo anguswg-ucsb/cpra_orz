@@ -1,3 +1,7 @@
+# Angus Watters
+# Lynker
+# Clean and buffer CPRA restoration and FWOA polygons and create raster
+
 library(raster)
 library(tidyverse)
 library(sf)
@@ -21,8 +25,9 @@ list.files(paste0(path, cpra_path))
 # **************************************
 
 # missing projects
-out <- readxl::read_xls("C:/Users/angus/OneDrive/Desktop/lynker/CPRA/data/cpra_projects/cpra_polys_select_by_location_TableToExcel.xls")
-# 
+out <- readr::read_csv("data/cpra_projects/cpra_polys_select_by_location.csv") %>%
+  mutate(YEAR = as.character(YEAR))
+
 # # missing project IDs
 miss_id <- unique(out$PROJ_ID)
 

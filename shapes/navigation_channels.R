@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Buffer Navigation channels and save to raster
 
 library(raster)

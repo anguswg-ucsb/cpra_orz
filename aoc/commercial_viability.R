@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Create commercial viability layers
 
 library(raster)
@@ -43,10 +45,6 @@ commercial_viability <- get_cv(
 writeRaster(commercial_viability, "data/commercial_viability/commercial_viability.tif", overwrite = T)
 saveRDS(stack(commercial_viability),"data/commercial_viability/commercial_viability.rds")
 
-# final_data_path <- "C:/Users/angus/OneDrive/Desktop/cpra_ors_data/"
-# writeRaster(commercial_viability, paste0(final_data_path, "commercial_viability.tif"), overwrite = T)
-# saveRDS(stack(commercial_viability),"C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/commercial_viability.rds")
-# writeRaster(commercial_viability,"C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/commercial_viability.tif", overwrite = T)
 
 
 

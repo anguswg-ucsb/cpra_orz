@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Read in MP CSVs and convert to raster (TIF files)
 
 library(raster)
@@ -8,7 +10,7 @@ library(rgdal)
 library(mapview)
 library(logger)
 
-#
+source("utils/utils.R")
 
 crs <- CRS('+init=EPSG:26915')
 

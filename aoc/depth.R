@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Reclassify depth inundation raster into too shallow, shallow, deep bins
 
 library(raster)
@@ -9,6 +11,7 @@ library(mapview)
 library(logger)
 
 remove(list = ls())  # clear all workspace variables
+
 # depth inundation raster
 depth <- raster("data/depth/MP2023_S07_G500_C000_U00_V00_SLA_O_01_01_W_inun.tif")
 
@@ -46,11 +49,7 @@ resamp_r <- raster(
 depth_reclass   <- resample(depth_reclass, resamp_r)
 
 # save
-# saveRDS(depth_reclass, "data/depth/depth_inundation.rds")
-# writeRaster(depth_reclass, "data/depth/depth_inundation.tif", overwrite = T)
-
-# final_data_path <- "C:/Users/angus/OneDrive/Desktop/cpra_ors_data/"
-# writeRaster(depth_reclass, paste0(final_data_path, "depth_inundation.tif"), overwrite = T)
-
+saveRDS(depth_reclass, "data/depth/depth_inundation.rds")
+writeRaster(depth_reclass, "data/depth/depth_inundation.tif", overwrite = T)
 
 

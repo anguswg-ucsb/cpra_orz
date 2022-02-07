@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Generate fetch data and convert to raster
 
 library(raster)
@@ -19,7 +21,7 @@ crs(landwater) <- crs
 # land polygon
 land_poly <-  readRDS("data/masks/land_polygon.rds") %>% 
   st_transform(26915)
-plot(land_poly$geometry)
+
 # convert land  polygon to SP for fetch function
 land_sp <- land_poly %>%
   as("Spatial") %>%

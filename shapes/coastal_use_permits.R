@@ -1,3 +1,7 @@
+# Angus Watters
+# Lynker
+# Clean and buffer coastal use permits polygon and create raster
+
 library(raster)
 library(tidyverse)
 library(sf)

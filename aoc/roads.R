@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # Create raster layer for roads buffer polygon
 
 library(raster)

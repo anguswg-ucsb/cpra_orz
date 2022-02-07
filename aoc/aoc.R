@@ -1,3 +1,5 @@
+# Angus Watters
+# Lynker
 # generate AOC layers
 
 library(raster)
@@ -31,19 +33,13 @@ for (i in 1:length(ov_files)) {
     combine_cv   = cv$cv,
     ov           = ov$si_ov
   )
-
   
+  # save to ../data/aoc/
   writeRaster(
             aoc,
             paste0("data/aoc/aoc_", substr(ov_files[i], 18, 19), ".tif"),
             overwrite = T
             )
-
-  # save RDS
-  # saveRDS(
-  #   stack(aoc),
-  #   paste0("C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/aoc_", substr(ov_files[i], 18, 19), ".rds")
-  # )
 }
 
 aoc_files <- paste0("data/aoc/", list.files("data/aoc/"))
@@ -107,12 +103,9 @@ sd_st   <- raster::stack(shallow_sd, deep_sd, combine_sd) %>%
   # setNames(c("aoc_shallow_sd", "aoc_deep_sd")) %>% 
   terra::rast()
 
-
-# writeRaster(mean_st, "data/oyster_resource_suitability/aoc_mean.tif", overwrite = T)
-# writeRaster(sd_st, "data/oyster_resource_suitability/aoc_standard_dev.tif", overwrite = T)
-# saveRDS(stack(mean_st), "C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/aoc_mean.rds")
-# saveRDS(stack(sd_st), "C:/Users/angus/OneDrive/Desktop/github/cpra_dashboard/aoc_sd.rds")
-
+# save outputs
+writeRaster(mean_st, "data/oyster_resource_suitability/aoc_mean.tif", overwrite = T)
+writeRaster(sd_st, "data/oyster_resource_suitability/aoc_standard_dev.tif", overwrite = T)
 
 rm(combine_st, aoc_lst, aoc, shallow_st, ov, r, cv, deep_st, combine_mean, deep_mean, shallow_mean, shallow_sd, deep_sd, combine_sd, mean_st, sd_st, shallow_lst, deep_lst, combine_lst, aoc_files, i, ov_files)
 
